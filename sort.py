@@ -59,8 +59,7 @@ def process_folder(folder_path):
             category = None
 
             category = directory(file_extension)
-            print(category)
-           
+                       
             if category == "archives":
                 target_folder = os.path.join(folder_path, category)
                 os.makedirs(target_folder, exist_ok=True)
