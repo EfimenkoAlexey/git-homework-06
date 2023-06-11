@@ -12,6 +12,13 @@ CATEGORIES = {
 # Папки, которые нужно игнорировать
 IGNORE_FOLDERS = ['archives', 'video', 'audio', 'documents', 'images']
 
+# Определение каталога
+def directory(file_extension):
+    
+    for item in CATEGORIES:
+        if file_extension in CATEGORIES[item]:
+            return item
+        
 # Функция для транслитерации и нормализации имени файла
 def normalize(name):
     
@@ -34,7 +41,6 @@ def normalize(name):
     
     return normalized_name
 
-
 # Функция для сортировки и обработки папки
 def process_folder(folder_path):
     known_extensions = set()
@@ -52,17 +58,9 @@ def process_folder(folder_path):
             file_extension = file.split('.')[-1].lower()
             category = None
 
-            if file_extension in CATEGORIES["images"]:
-                category = "images"
-            elif file_extension in CATEGORIES["documents"]:
-                category = "documents"
-            elif file_extension in CATEGORIES["video"]:
-                category = "video"
-            elif file_extension in CATEGORIES["audio"]:
-                category = "audio"
-            elif file_extension in CATEGORIES["archives"]:
-                category = "archives"
-
+            category = directory(file_extension)
+            print(category)
+           
             if category == "archives":
                 target_folder = os.path.join(folder_path, category)
                 os.makedirs(target_folder, exist_ok=True)
@@ -105,11 +103,13 @@ def process_folder(folder_path):
     print("Неизвестные расширения:", ", ".join(unknown_extensions))
 
 def main():
-    if __name__ == "__main__":
-        if len(sys.argv) != 2:
-            print("Правильно использовать: python sort.py <folder_path>")
-        else:
-            folder_path = sys.argv[1]
-            process_folder(folder_path)
+    if len(sys.argv) != 2:
+        print("Правильно использовать: python sort.py <folder_path>")
+    else:
+        folder_path = sys.argv[1]
+        process_folder(folder_path)
 
-main()
+if __name__ == "__main__":
+    main()
+
+
